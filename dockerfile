@@ -3,7 +3,7 @@ ARG wise_home=/elba
 
 
 #Move Elba Directory
-COPY WISETutorial-master /elba
+COPY WISETutorial /elba
 WORKDIR /elba
 
 RUN  apt-get update -y
@@ -15,9 +15,9 @@ RUN apt-get install -y virtualenv && \
 RUN /bin/bash -c "source $wise_home/.env/bin/activate && \
     pip install click && \
     pip install psycopg2-binary && \
-    pip install thrift &&"
+    pip install thrift"
 
-RUN apt install curl -y
+RUN apt install git gnupg curl -y
 
 # Install Postgresql cli V10
 RUN set -x; \
