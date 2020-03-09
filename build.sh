@@ -1,0 +1,1 @@
+sudo docker build -t harvardbiodept/auth:v1.0 .
