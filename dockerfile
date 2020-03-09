@@ -33,8 +33,12 @@ RUN apt-get install libboost-dev libboost-test-dev libboost-program-options-dev 
  ./bootstrap.sh && \
  ./configure && \
   make && \
-  make install 
+  make install
 
-RUN $wise_home/WISEServices/auth/scripts/gen_code.sh py
+RUN  cd $wise_home/WISEServices/auth/src && \
+    rm -rf py/gen_auth && \
+    mkdir py/gen_auth && \
+    thrift -r --gen py -out py/gen_auth spec.thrift
 
- 
+
+ CMD $wise_home/WISEServices/auth/scripts/start_server.sh py 0.0.0.0 $AUTH_PORT $AUTH_THREADPOOLSIZE $POSTGRESQL_HOST
