@@ -1,0 +1,44 @@
+from ubuntu:latest
+ARG wise_home=/elba
+
+
+#Move Elba Directory
+COPY WISETutorial /elba
+WORKDIR /elba
+
+RUN  apt-get update -y && apt-get install -y \
+    virtualenv git gnupg curl libboost-dev libboost-test-dev libboost-program-options-dev libboost-filesystem-dev libboost-thread-dev libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
+
+# Set up Python 3 environment.
+#Python dependencies
+RUN apt install python3-pip -y && \
+    pip3 install click && \
+    pip3 install psycopg2-binary && \
+    pip3 install thrift
+
+
+RUN git clone https://git-wip-us.apache.org/repos/asf/thrift.git thrift && \
+ cd thrift && \
+ ./bootstrap.sh && \
+ ./configure && \
+  make && \
+  make install
+
+# Install Postgresql cli V10
+RUN set -x; \
+		echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+		&& curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+		&& apt-get update -y \
+		&& apt-get install -y postgresql-client-10
+        
+
+
+
+RUN  cd $wise_home/WISEServices/auth/src && \
+    rm -rf py/gen_auth && \
+    mkdir py/gen_auth && \
+    thrift -r --gen py -out py/gen_auth spec.thrift
+
+COPY ./run.sh /
+ENTRYPOINT ["/run.sh"]
+CMD []
