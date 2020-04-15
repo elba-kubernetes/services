@@ -1,3 +1,3 @@
 sudo docker login
-sudo docker push harvardbiodept/queue:v1.0
-sudo docker push harvardbiodept/queue:latest
+sudo docker push wisebenchmark/queue:v1.0
+sudo docker push wisebenchmark/queue:latest

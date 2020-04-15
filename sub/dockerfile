@@ -1,13 +1,16 @@
-from ubuntu:latest
+FROM ubuntu:latest
 ARG wise_home=/elba
 
-
 #Move Elba Directory
-COPY WISETutorial /elba
+COPY experiment /elba
 WORKDIR /elba
 
-RUN  apt-get update -y && apt-get install -y \
-    virtualenv git gnupg curl libboost-dev libboost-test-dev libboost-program-options-dev libboost-filesystem-dev libboost-thread-dev libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
+RUN apt-get update -y && \
+    apt-get install -y \
+    virtualenv git gnupg curl libboost-dev libboost-test-dev \
+    libboost-program-options-dev libboost-filesystem-dev \
+    libboost-thread-dev libevent-dev automake libtool flex bison \
+    pkg-config g++ libssl-dev
 
 # Set up Python 3 environment.
 #Python dependencies
@@ -15,7 +18,6 @@ RUN apt install python3-pip -y && \
     pip3 install click && \
     pip3 install psycopg2-binary && \
     pip3 install thrift
-
 
 RUN git clone https://git-wip-us.apache.org/repos/asf/thrift.git thrift && \
  cd thrift && \
@@ -30,9 +32,6 @@ RUN set -x; \
 		&& curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
 		&& apt-get update -y \
 		&& apt-get install -y postgresql-client-10
-        
-
-
 
 RUN  cd $wise_home/WISEServices/sub/src && \
     rm -rf py/gen_sub && \

@@ -1,4 +1,3 @@
-
-git clone git@github.com:coc-gatech-newelba/WISETutorial.git
-sudo docker build   -t harvardbiodept/queue:v1.0 -t harvardbiodept/queue:latest .
-rm -r WISETutorial
+git clone git@github.com:elba-kubernetes/experiment.git
+sudo docker build -t wisebenchmark/queue:v1.0 -t wisebenchmark/queue:latest .
+yes | rm -r experiment
